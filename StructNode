@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+struct Node* insertNode(struct Node* root, int data) {
+    if (root == NULL) {
+        return createNode(data);
+    }
+
+    char direction;
+    printf("Insert to left or right of %d? (l/r): ", root->data);
+    scanf(" %c", &direction);
+
+    if (direction == 'l') {
+        root->left = insertNode(root->left, data);
+    } else if (direction == 'r') {
+        root->right = insertNode(root->right, data);
+    }
+
+    return root;
+}
+
+void inorder(struct Node* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+int main() {
+    struct Node* root = NULL;
+    int n, data;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter node value: ");
+        scanf("%d", &data);
+        root = insertNode(root, data);
+    }
+
+    printf("Inorder Traversal: ");
+    inorder(root);
+    printf("\n");
+
+    return 0;
+}
